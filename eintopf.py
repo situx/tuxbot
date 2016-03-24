@@ -52,7 +52,7 @@ def peng(bot,trigger):
 def peng(bot,trigger):
   bot.say('pong')
 
-@module.commands('schnickschnackschnuck\s(schere|stein|papier)')
+@module.commands('schnickschnackschnuck\s(schere|stein|papier)','schnick\s(schere|stein|papier)')
 def schnickschnackschnuck(bot,trigger):
   userinput=trigger.group(2).lower()
   switcher = {
