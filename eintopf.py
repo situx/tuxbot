@@ -36,7 +36,38 @@ def hi(bot, trigger):
 def snack(bot, trigger):
     bot.say('Nomnomnom')
 
+@module.commands('github')
+def github(bot,trigger):
+    bot.say("https://github.com/situx/tuxbot")
+
 @module.commands('ping')
 def helloworld(bot, trigger):
     bot.say('pong')
+
+@module.commands('pong')
+def peng(bot,trigger):
+  bot.say('ping')
+  
+@module.commands('peng')
+def peng(bot,trigger):
+  bot.say('pong')
+
+@module.commands('schnickschnackschnuck\s(schere|stein|papier)')
+def schnickschnackschnuck(bot,trigger):
+  userinput=trigger.group(2).lower()
+  switcher = {
+                0: "schere",
+                1: "stein",
+                2: "papier"
+  }
+  rand=randint(0,len(switcher)-1)
+  botinput=switcher[rand]
+  bot.say(trigger.nick+": "+userinput)
+  bot.say(bot.nick+": "+botinput)
+  if (botinput=="schere" and  userinput=="papier") or (botinput=="stein" and userinput=="schere") or (botinput=="papier" and userinput=="stein"):
+    bot.say(bot.nick+": gewinnt!")
+  elif (botinput=="schere" and userinput=="stein") or (botinput=="stein" and userinput=="papier") or (botinput=="papier" and userinput=="schere"):
+    bot.say(trigger.nick+": gewinnt!")
+  elif (botinput=="schere" and userinput=="schere") or (botinput=="stein" and userinput=="stein") or (botinput=="papier" and userinput=="papier"):
+    bot.say("Unentschieden!")
 
