@@ -12,8 +12,7 @@ cleverbot=cleverbot.Cleverbot()
 
 @rule('tuxbot\:\s(.*)')
 def goodbye(bot, trigger):
-    h=HTMLParser.HTMLParser()    
     reply1=cleverbot.ask(trigger.group(1))
-    if "|" in reply1:	
-	reply1=reply1.replace("|","\\u").replace(".","").lower()
-    bot.reply(h.unescape(unicode(reply1,"unicode_escape").encode("utf8")))  
+    if "|" in reply1:
+        reply1=reply1.replace("|","\\u").replace(".","").lower()
+    bot.reply(html.unescape(bytes(reply1,"utf-8").decode("unicode_escape")))
