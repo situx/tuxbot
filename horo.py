@@ -1,4 +1,4 @@
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import sopel.module
 import json
 import time
@@ -13,7 +13,7 @@ def forecast(bot,trigger):
         zsign=germanmatch[trigger.group(2)]
     baseurl = "http://widgets.fabulously40.com/horoscope.json?sign="+zsign
     #print(baseurl)
-    result = urllib2.urlopen(baseurl).read()
+    result = urllib.request.urlopen(baseurl).read()
     #bot.say(baseurl)
     data = json.loads(result)
     #bot.say(str(data))
