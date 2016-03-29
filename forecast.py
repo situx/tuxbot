@@ -2,8 +2,8 @@ from sopel import web
 from sopel.module import commands, example, NOLIMIT
 
 import xmltodict
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import json
 
 @commands('forecast', 'fc')
@@ -22,16 +22,16 @@ def forecast(bot,trigger):
                 return bot.reply("I don't know where that is.")
         data = result
         bot.say(data['channel']['title']+" "+data['channel']['item']['pubDate'])
-        for dat in  data['channel']['item']['forecast']:
+        for dat in  data['channel']['item']['forecast'][:5]:
                 bot.say(dat['day']+" "+dat['date']+" "+dat['text']+" "+dat['low']+"/"+dat['high']+"C")
 
 def forecastsearch(query):
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = 'select * from geo.places where text="'+query+'"'
-    yql_url = baseurl + urllib.urlencode({'q':yql_query}) + "&format=json"
+    yql_url = baseurl + urllib.parse.urlencode({'q':yql_query}) + "&format=json"
     print(yql_url)
-    result = urllib2.urlopen(yql_url).read()
-    data = json.loads(result)
+    result = urllib.request.urlopen(yql_url).read()
+    data = json.loads(result.decode())
     if not 'results' in data['query']:
         return
     if not 'woeid' in data['query']['results']['place']:
@@ -42,8 +42,7 @@ def forecastsearch(query):
             return
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = "select * from weather.forecast where u='c' and woeid="+woid
-    yql_url = baseurl + urllib.urlencode({'q':yql_query}) + "&format=json"
-    result = urllib2.urlopen(yql_url).read()
-    data = json.loads(result)
+    yql_url = baseurl + urllib.parse.urlencode({'q':yql_query}) + "&format=json"
+    result = urllib.request.urlopen(yql_url).read()
+    data = json.loads(result.decode())
     return data['query']['results']
-
