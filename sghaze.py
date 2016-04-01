@@ -11,18 +11,22 @@ cached_psi={}
 cached_time=None
 chosen_area=None
 
-@commands('sghaze','sghaze\s+(north|south|east|west|central)')
+@commands('sghaze(\s+(north|south|east|west|central))?')
 def sghaze(bot,trigger):
         global chosen_area
-        chosen_area=trigger.group(2)
+        chosen_area=trigger.group(3)
+#       print(chosen_area)
         result=cachedd_psi()
+#       print(result)
         if chosen_area:
                 chosen_area=chosen_area.capitalize()
                 bot.say("Air Quality Index for Singapore "+chosen_area+" district: ")
+#               bot.say(str(result))
+                bot.say(chosen_area+": "+rate_result(result[chosen_area]))
         else:
                 bot.say("Air Quality Index for Singapore:")
-        for key in result:
-                bot.say(key+": "+rate_result(cached_psi[key]))
+                for key in result:
+                        bot.say(key+": "+rate_result(cached_psi[key]))
 
 @commands('sghazeinfo')
 def sghazelegend(bot,trigger):
@@ -63,16 +67,17 @@ def get_psi():
         global chosen_area
         psi={}
         html=urllib.request.urlopen(url).read().decode()
-        #print(html)
+#       print(html)
         if chosen_area:
-                m = re.search('<strong>'+chosen_area+'<\/strong>.*?<strong[^>]+>(\d+)',html,re.M|re.S)
+#               print(chosen_area)
+                m = re.search('<strong>'+chosen_area.capitalize()+'<\/strong>.*?<strong[^>]+>(\d+)',html,re.M|re.S)
                 if m:
-                        psi[chosen_area]=int(m.group(1))
+                        psi[chosen_area.capitalize()]=int(m.group(1))
         else:
                 for area in areas: 
-                        #print(area)
+#                       print(area)
                         m = re.search('<strong>'+area+'<\/strong>.*?<strong[^>]+>(\d+)',html,re.M|re.S)
-                        #print(m)
+#                       print(m)
                         if m:
                                 psi[area]=int(m.group(1))
         return psi
