@@ -32,17 +32,19 @@ def forecastsearch(query):
     print(yql_url)
     result = urllib.request.urlopen(yql_url).read()
     data = json.loads(result.decode())
+    print(data['query']['results'])
     if not 'results' in data['query']:
         return
-    if not 'woeid' in data['query']['results']['place']:
-            woid=data['query']['results']['place'][0]['woeid']
-    else:
-            woid=data['query']['results']['place']['woeid']
-    if not woid:
-            return
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = "select * from weather.forecast where u='c' and woeid="+woid
-    yql_url = baseurl + urllib.parse.urlencode({'q':yql_query}) + "&format=json"
-    result = urllib.request.urlopen(yql_url).read()
-    data = json.loads(result.decode())
-    return data['query']['results']
+    places=data['query']['results']['place']
+    for place in places:
+        if 'woeid' in place:
+            baseurl="https://query.yahooapis.com/v1/public/yql?"
+            yql_query="select * from weather.forecast where u='c' and woeid="+place['woeid']
+            yql_url=baseurl+urllib.parse.urlencode({'q':yql_query})+"&format=json"
+            print(yql_url)
+            result=urllib.request.urlopen(yql_url).read()
+            data=json.loads(result.decode())
+            print()
+            if 'results' in data['query']  and data['query']['results']!=None:
+                print(data['query']['results'])
+                return data['query']['results']
