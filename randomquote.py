@@ -28,6 +28,6 @@ def quoteofday(bot,trigger):
     bot.say(quoteofday[0])
     bot.say(quoteofday[1])    
 
-@commands('quote\s([A-z\s]+)')
+@commands('quote\s([A-z\s\-\.]+)')
 def quoteofperson(bot,trigger):
     bot.say(str(random.choice(wikiquote.quotes(trigger.group(2)))))
