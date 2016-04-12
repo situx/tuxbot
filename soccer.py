@@ -1,5 +1,3 @@
-'''Modified fomr soccer-cli python package'''
-
 #import soccer
 #from soccer import main
 import urllib.request, urllib.parse, urllib.error
@@ -129,9 +127,10 @@ def soccerlive(bot,trigger):
     for league,games in itertools.groupby(scoressorted,key=lambda x: x["league"]):
         bot.say(league)
         for game in games:
-            bot.say(game["result"]["homeTeamName"]+"\t"+str(game["result"]["goalsHomeTeam"])+"  vs "+str(game["result"]["goalsAwayTeam"])+" "+game["result"]["awayTeamName"])
-    else:
-        bot.say("There was problem getting live scores")
+            if 'result' in game:
+                bot.say(game["result"]["homeTeamName"]+"\t"+str(game["result"]["goalsHomeTeam"])+"  vs "+str(game["result"]["goalsAwayTeam"])+" "+game["result"]["awayTeamName"])
+            else:
+                bot.say(game["homeTeamName"]+"\tvs \t"+game["awayTeamName"])
 
 @commands('soccerteams')
 def soccerteams(bot,trigger):
@@ -151,3 +150,15 @@ def soccertable(bot,trigger):
     for team in table["standing"]:
         print(team["teamName"]+" "+str(len(clubnamelength)-len(team["teamName"])))
         bot.say(str(team["position"])+"\t"+str(team["teamName"])+clubnamelength[0:len(clubnamelength)-len(team["teamName"])]+"\t"+str(team["playedGames"])+"\t"+str(team["goalDifference"])+"\t"+str(team["points"]))
+
+def list_team_codes(bot):
+    """List team names in alphabetical order of team ID."""
+    teamcodes = sorted(TEAM_NAMES.keys())
+    here = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(here, "teamcodes.json")) as jfile:
+        data = json.load(jfile)
+    for code in teamcodes:
+        for key, value in data.iteritems():
+            if value == code:
+                bot.say(u"{0}: {1}".format(value, key))
+                break
