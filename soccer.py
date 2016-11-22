@@ -16,18 +16,18 @@ LIVE_URL = 'http://soccer-cli.appspot.com/'
 #LEAGUE_IDS = leagueids.LEAGUE_IDS
 #TEAM_NAMES = teamnames.team_names
 LEAGUE_IDS = {
-    "BL": 394,
-    "BL2": 395,
-    "BL3": 403,
-    "FL": 396,
-    "FL2": 397,
-    "EPL": 398,
-    "EL1": 425,
-    "LLIGA": 399,
-    "SD": 400,
-    "SA": 401,
-    "PPL": 402,
-    "DED": 404,
+    "BL": 430,
+    "BL2": 431,
+    "FL": 434 ,
+    "FL2": 435,
+    "EPL": 426,
+    "EL1": 428,
+    "ECH": 427,
+    "LLIGA": 436,
+    "SD": 437,
+    "SA": 438,
+    "PPL": 439,
+    "DED": 433,
     "CL": 405
 }
 
