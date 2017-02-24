@@ -20,11 +20,11 @@ def date_hook(json_dict):
     return json_dict
 
 def writejson(dict):
-    with open('/home/bananapi/.sopel/evday2.txt', 'w') as bdayfile:
+    with open('evday.json', 'w') as bdayfile:
         json.dump(dict, bdayfile, default=date_handler)
 
 def readjson():
-    with open('/home/bananapi/.sopel/evday2.txt','r') as bdayfile:
+    with open('evday.json','r') as bdayfile:
         dict = json.loads(bdayfile.read(), object_hook=date_hook)
     return dict
 
