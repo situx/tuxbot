@@ -12,3 +12,7 @@ def helloworld(bot, trigger):
     bot.say('(7^.^)7')
     time.sleep(0.4)
     bot.say('(>^.^<)')
+
+@module.rule('moin')
+def moin(bot, trigger):
+    bot.say('moin')
