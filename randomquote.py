@@ -28,6 +28,12 @@ def quoteofday(bot,trigger):
     bot.say(quoteofday[0])
     bot.say(quoteofday[1])    
 
-@commands('quote\s([A-z\s\-\.]+)')
+@commands('quote\s([A-z0-9-\.\s]+)')
 def quoteofperson(bot,trigger):
-    bot.say(str(random.choice(wikiquote.quotes(trigger.group(2)))))
+    result=wikiquote.quotes(trigger.group(2))
+    if"NoSuchPageException" in result:
+        bot.say("Not quote for person "+trigger.group(2)+" found!")
+    else:
+        bot.say(str(random.choice(wikiquote.quotes(trigger.group(2)))))
+
+

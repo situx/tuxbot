@@ -56,3 +56,4 @@ def toxml():
                     user.set("amount",str(user[key][key2]))
         tree=ET.ElementTree(root)
         tree.write('wordfreqs.xml')
+

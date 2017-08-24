@@ -1,5 +1,4 @@
-#Event day plugin for tuxbot, modified from a birthday plugin
-from datetime import datetime
+from datetime import datetime as dt, timedelta
 import json
 import sopel
 import operator
@@ -15,7 +14,7 @@ def date_hook(json_dict):
     for(key, value) in json_dict.items():
         try:
             if "date"==key:
-                json_dict[key]= datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+                json_dict[key]= dt.strptime(value, "%Y-%m-%dT%H:%M:%S")
         except:
             print(value[key])
             pass
@@ -32,11 +31,11 @@ def readjson():
 
 def datetonext(dict):
     res = []
-    today = datetime.today()
+    today = dt.today()
     for x,y in dict.items():
-        delta = y['date'].replace(year=(datetime.today().year)) - today
+        delta = y['date'].replace(year=(dt.today().year)) - today
         if delta.total_seconds() < 0:
-            delta = y['date'].replace(year=(datetime.today().year+1)) - today
+            delta = y['date'].replace(year=(dt.today().year+1)) - today
         res.append([x,delta])
     res.sort(key=lambda x: x[1])
     return res
@@ -68,7 +67,7 @@ def nextbday(bot, trigger):
     else:
         btoday = 0
         for c,d in dict.items():
-            if d["date"] == datetime.today().replace(year=1904).date():
+            if d["date"] == dt.today().replace(year=1904).date():
                 btoday = "Today is {0} !".format(d["date"])
         nname=res[0][0]
         nbday=(dict[nname]["date"]).strftime('%B %d')
@@ -79,7 +78,7 @@ def nextbday(bot, trigger):
             bot.say("Next event: {0} on {1} ({2} days away)".format(nname, nbday, daysaway))
 
 
-@sopel.module.commands('addev\s([0-9A-z ,-]+)\s(1[0-2]|[1-9])\.([1-9]|1[012])\.?\s?(onetime)?\s?(.+)?','addevent\s([0-9A-z ,-]+)\s(1[0-2]|[1-9])\.([1-9]|1[012])\.?\s?(onetime)?\s?(.+)?')
+@sopel.module.commands('addev\s([0-9A-z ,-]+)\s([1-9]|[12]\d|3[0-1])\.(1[012] |[1-9])\.?(onetime)?\s?','addevent\s([0-9A-z ,-]+)\s(1[0-2]|[1-9])\.([1-9]|1[012])\.?\s?(onetime)?\s?(.+)?')
 def addbday(bot,trigger):
     dict=readjson()
     month=trigger.group(4)
@@ -118,15 +117,15 @@ def bdaylist(bot,trigger):
     d = OrderedDict(sorted(dictt.items(), key=lambda x:x[1]["date"]))
     for key,val in d.items():
 #        bot.say(key+" - "+str(val))
-        bot.say(key+" - "+str(val["date"].day)+"."+str(val["date"].month)+". "+("(One Time Event)" if d[key]["onetime"]=="true" else "")(d[key]["url"] if d[key]["url"]!="" else ""),trigger.nick)
+        bot.say(key+" - "+str(val["date"].day)+"."+str(val["date"].month)+". "+("(One Time Event)" if d[key]["onetime"]=="true" else ""),trigger.nick)
 
 
 def gettodaysevents(dict):
     result=[]
     for key,val in dict.items():
-        if dict[key]["date"].month== datetime.today().month and dict[key]["date"].day==datetime.today().day:
+        if dict[key]["date"].month== dt.today().month and dict[key]["date"].day==dt.today().day:
             result.append(key)
-        if dict[key]["date"]== datetime.today()-datetime.timedelta(days=1) and dict[key]["onetime"]=="true":
+        if dict[key]["date"]== dt.today()-timedelta(days=1) and dict[key]["onetime"]=="true":
             del dict[key]
     return result
 

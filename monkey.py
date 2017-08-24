@@ -1,9 +1,3 @@
-"""
-cleverbot.py - Monkey Island swordfighting script for sopel bot.
-Status: Unfinished
-Copyright 2009-2011, Timo Homburg
-Licensed under GPL3.
-"""
 import xml.etree.ElementTree as ET
 import sopel.module
 from random import randint
@@ -17,7 +11,7 @@ counter=0
 lang='de'
 
 def setup(bot):
-    e = ET.parse('monkeyphrases.xml').getroot()
+    e = ET.parse('/home/bananapi/.sopel/modules/monkeyphrases.xml').getroot()
     for atype in e.findall('pair'):
         if not atype.get('lang') in insulthash:
             insulthash[atype.get('lang')]={}

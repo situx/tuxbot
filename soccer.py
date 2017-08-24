@@ -30,7 +30,6 @@ LEAGUE_IDS = {
     "DED": 433,
     "CL": 405
 }
-
 team_names = {
     "null": "532",
     "SWA": "72",
@@ -131,6 +130,8 @@ def soccerlive(bot,trigger):
                 bot.say(game["result"]["homeTeamName"]+"\t"+str(game["result"]["goalsHomeTeam"])+"  vs "+str(game["result"]["goalsAwayTeam"])+" "+game["result"]["awayTeamName"])
             else:
                 bot.say(game["homeTeamName"]+"\tvs \t"+game["awayTeamName"])
+    #else:
+     #   bot.say("There was problem getting live scores")
 
 @commands('soccerteams')
 def soccerteams(bot,trigger):
@@ -162,3 +163,38 @@ def list_team_codes(bot):
             if value == code:
                 bot.say(u"{0}: {1}".format(value, key))
                 break
+'''
+@commandss('soccer\s([A-z])+')
+def soccercom(bot,trigger):
+    """A CLI for live and past football scores from various football leagues"""
+    try:
+        
+        writer = main.get_writer(output_format, output_file)
+
+        if listcodes:
+            main.list_team_codes()
+            return
+
+        if live:
+            main.get_live_scores(writer, use12hour)
+            return
+
+        if standings:
+            if not league:
+                raise IncorrectParametersException('Please specify a league. '
+                                                   'Example --standings --league=EPL')
+            main.get_standings(league, writer)
+            return
+
+        if team:
+            if lookup:
+                main.map_team_id(team)
+                return
+            if players:
+                main.get_team_players(team, writer)
+                return
+            else:
+                main.get_team_scores(team, time, writer, upcoming, use12hour)
+                return
+
+        main.get_league_scores(league, time, writer, upcoming, use12hour)'''

@@ -13,6 +13,6 @@ def helloworld(bot, trigger):
     time.sleep(0.4)
     bot.say('(>^.^<)')
 
-@module.rule('moin')
-def moin(bot, trigger):
+@sopel.module.rule('^[Mm]oin$')
+def moin(bot,trigger):
     bot.say('moin')
