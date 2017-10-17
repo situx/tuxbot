@@ -65,3 +65,25 @@ def schnickschnackschnuck(bot,trigger):
         bot.say(trigger.nick+": gewinnt!")
     elif (botinput=="schere" and userinput=="schere") or (botinput=="stein" and userinput=="stein") or (botinput=="papier" and userinput=="papier"):
         bot.say("Unentschieden!")
+
+       
+@module.commands('schnickschnackschnuck2\s(schere|stein|papier|echse|spock)','schnick2\s(schere|stein|papier|echse|spock)')
+def schnickschnackschnuck(bot,trigger):
+    userinput=trigger.group(2).lower()
+    switcher = {
+                  0: "schere",
+                  1: "stein",
+                  2: "papier",
+                  3: "echse",
+                  4: "spock"
+    }
+    rand=randint(0,len(switcher)-1)
+    botinput=switcher[rand]
+    bot.say(trigger.nick+": "+userinput)
+    bot.say(bot.nick+": "+botinput)
+    if (botinput=="schere" and  userinput=="papier") or (botinput=="schere" and userinput=="echse") or (botinput=="stein" and userinput=="schere") or (botinput=="stein" and userinput=="echse") or (botinput=="papier" and userinput=="stein") or (botinput=="echse" and userinput=="papier") or (botinput=="papier" and userinput=="spock") or (botinput=="echse" and userinput=="spock")  or (botinput=="spock" and userinput=="schere") or (botinput=="spock" and userinput=="stein") :
+        bot.say(bot.nick+": gewinnt!")
+    elif (botinput==userinput):
+        bot.say("Unentschieden!")
+    else:
+        bot.say(trigger.nick+": gewinnt!")
