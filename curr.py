@@ -52,15 +52,15 @@ def exchange(bot, trigger):
     elif fromcur in curlist and tocur=="BTC":
         bot.say(str("%.8f "% b.convert_to_btc(amount,fromcur))+tocur)
     elif fromcur in curlist and tocur in curlist:
-        bot.say(str("%.2f" % c.convert(fromcur,tocur,amount))+tocur)
+        bot.say(str("%.2f " % c.convert(fromcur,tocur,amount))+tocur)
     elif fromcur not in curlist and fromcur in altcoinmap and tocur in curlist:
         usdamount=Decimal(m.ticker(altcoinmap[fromcur],convert="USD")[0]["price_usd"])*amount 
         print(usdamount)
-        bot.say(str("%.2f "% c.convert("USD",tocur,usdamount))+" "+tocur)
+        bot.say(str("%.2f "% c.convert("USD",tocur,usdamount))+tocur)
     elif fromcur in curlist and tocur not in curlist and tocur in altcoinmap:
         usdamount=c.convert(fromcur,"USD",amount)
-        factor=Decimal(m.ticker(altcoinmap[tocur],convert="USD")[0]["price_usd"])/usdamount
-        bot.say(str("%.8f " % factor)+" "+tocur)
+        factor=Decimal(m.ticker(altcoinmap[tocur],convert="USD")[0]["price_usd"])*usdamount
+        bot.say(str("%.8f " % factor)+tocur)
     else:
         bot.say("Due to an error, I currently cannot convert from "+fromcur+" to "+tocur)
 
