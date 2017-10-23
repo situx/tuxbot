@@ -32,7 +32,7 @@ for currency in json:
 allcoins=SortedDict(allcoins)
 #print(allcoins)
 
-@commands('curr\s([0-9]+(\.[0-9][0-9]?)?\s)?([A-z]+)\sin\s([A-z]+)')
+@commands('curr\s([0-9]+(\.[0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)?\s)?([A-z]+)\sin\s([A-z]+)')
 @example('.curr 20 EUR in USD')
 def exchange(bot, trigger):
     fromcur=trigger.group(4).upper()
