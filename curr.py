@@ -32,6 +32,34 @@ for currency in json:
 allcoins=SortedDict(allcoins)
 #print(allcoins)
 
+def curconvert(fromcur,tocur,amount):
+    if amount==None:
+        amount=Decimal(1.0) 
+    if fromcur==tocur:
+        return amount
+    elif fromcur=="SATOSHI" and tocur in curlist:
+        return b.convert_btc_to_cur(amount,tocur)/100000000
+    elif fromcur=="BTC" and tocur in curlist:
+        return b.convert_btc_to_cur(amount,tocur)
+    elif fromcur in curlist and tocur=="SATOSHI":
+        return b.convert_to_btc(amount,fromcur)*100000000
+    elif fromcur in curlist and tocur=="BTC":
+        return b.convert_to_btc(amount,fromcur)
+    elif fromcur in curlist and tocur in curlist:
+        return c.convert(fromcur,tocur,amount)
+    elif fromcur not in curlist and fromcur in altcoinmap and tocur in curlist:
+        usdamount=Decimal(m.ticker(altcoinmap[fromcur],convert="USD")[0]["price_usd"])*amount 
+        #print(usdamount)
+        return c.convert("USD",tocur,usdamount)
+    elif fromcur in curlist and tocur not in curlist and tocur in altcoinmap:
+        #print(str(amount)+" "+fromcur)
+        usdamount=c.convert(fromcur,"USD",amount)
+        #print("USDAmount: "+str(usdamount))
+        factor=usdamount/Decimal(m.ticker(altcoinmap[tocur],convert="USD")[0]["price_usd"])
+        return factor#print("Factor: 1"+tocur+"="+str(m.ticker(altcoinmap[tocur],convert="USD")[0]["price_usd"])))
+    else:
+        return None
+
 @commands('curr\s([0-9]+(\.[0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)?\s)?([A-z]+)\sin\s([A-z]+)')
 @example('.curr 20 EUR in USD')
 def exchange(bot, trigger):
@@ -44,26 +72,19 @@ def exchange(bot, trigger):
     if fromcur==tocur:
         bot.say(str(amount)+" "+tocur)
     elif fromcur=="SATOSHI" and tocur in curlist:
-        bot.say(str("%.2f "% (b.convert_btc_to_cur(amount,tocur)/100000000))+" "+tocur)
+        bot.say(str("%.2f "% (curconvert(fromcur,tocur,amount)+tocur)))
     elif fromcur=="BTC" and tocur in curlist:
-        bot.say(str("%.2f "% b.convert_btc_to_cur(amount,tocur))+tocur)
+        bot.say(str("%.2f "% (curconvert(fromcur,tocur,amount))+tocur))
     elif fromcur in curlist and tocur=="SATOSHI":
-        bot.say(str("%.0f "% (b.convert_to_btc(amount,fromcur)*100000000))+tocur)
+        bot.say(str("%.0f "% (curconvert(fromcur,tocur,amount))+tocur))
     elif fromcur in curlist and tocur=="BTC":
-        bot.say(str("%.8f "% b.convert_to_btc(amount,fromcur))+tocur)
+        bot.say(str("%.8f "% (curconvert(fromcur,tocur,amount))+tocur))
     elif fromcur in curlist and tocur in curlist:
-        bot.say(str("%.2f " % c.convert(fromcur,tocur,amount))+tocur)
+        bot.say(str("%.2f " % (curconvert(fromcur,tocur,amount))+tocur))
     elif fromcur not in curlist and fromcur in altcoinmap and tocur in curlist:
-        usdamount=Decimal(m.ticker(altcoinmap[fromcur],convert="USD")[0]["price_usd"])*amount 
-        #print(usdamount)
-        bot.say(str("%.2f "% c.convert("USD",tocur,usdamount))+tocur)
+        bot.say(str("%.2f "% (curconvert(fromcur,tocur,amount))+tocur))
     elif fromcur in curlist and tocur not in curlist and tocur in altcoinmap:
-        #print(str(amount)+" "+fromcur)
-        usdamount=c.convert(fromcur,"USD",amount)
-        #print("USDAmount: "+str(usdamount))
-        factor=usdamount/Decimal(m.ticker(altcoinmap[tocur],convert="USD")[0]["price_usd"])
-        #print("Factor: 1"+tocur+"="+str(m.ticker(altcoinmap[tocur],convert="USD")[0]["price_usd"])))
-        bot.say(str("%.8f " % factor)+tocur)
+        bot.say(str("%.8f " % (curconvert(fromcur,tocur,amount))+tocur))
     else:
         bot.say("Due to an error, I currently cannot convert from "+fromcur+" to "+tocur)
 
