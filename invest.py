@@ -27,12 +27,10 @@ def startinvest(bot,trigger):
 @commands('curvalue(\s(.*))?')
 def currentvalue(bot,trigger):
     user=trigger.nick
-    print(trigger.group(3))
     if trigger.group(3):
         user=trigger.group(3)
-        print(user)
     if user not in wordhash:
-        bot.say("You need to create a new portfolio first. Use the .investstart command to get started!")
+        bot.say("You need to create a new portfolio for "+user+" first. Use the .investstart command to get started!")
         return
     result=Decimal(0)
     for curkey,val in wordhash[user].items():
@@ -40,9 +38,13 @@ def currentvalue(bot,trigger):
     bot.reply("Current value of "+user+"'s whole portfolio in EUR is "+str("%.2f "%result)+"EUR")
     print(str(wordhash))
 
-@commands('investstatus')
+@commands('investstatus(\s(.*))?')
 def investstatus(bot,trigger):
     user=trigger.nick
+    if (trigger.group(3)):
+        user=trigger.group(3)
+    if user not in wordhash:
+        return
     for curkey,val in sorted(wordhash[user].items()):
         if curkey=="EUR":
             bot.say(str("%.2f "%float(val))+curkey)
