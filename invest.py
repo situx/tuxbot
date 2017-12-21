@@ -14,21 +14,31 @@ def setup(bot):
         wordhash[atype.get('name')]={}
         for child in atype.iter('cur'):
             wordhash[atype.get('name')][child    .get('currency')]=child.get('value')
+    print(str(wordhash))
 
 @commands('investstart')
 def startinvest(bot,trigger):
     user=trigger.nick
     wordhash[user]={}
     wordhash[user]["EUR"]=initialvalue
-    bot.reply("I created an investment portfolio for you. You initial investment funds are "+str(initialvalue)+"EUR")
+    bot.reply("I created an investment portfolio for you. Your initial investment funds are "+str(initialvalue)+"EUR")
+    toxml()
 
-@commands('curvalue')
+@commands('curvalue(\s(.*))?')
 def currentvalue(bot,trigger):
     user=trigger.nick
+    print(trigger.group(3))
+    if trigger.group(3):
+        user=trigger.group(3)
+        print(user)
+    if user not in wordhash:
+        bot.say("You need to create a new portfolio first. Use the .investstart command to get started!")
+        return
     result=Decimal(0)
     for curkey,val in wordhash[user].items():
-        result+=Decimal(curconvert(curkey,"EUR",val))
-    bot.reply("Current value of whole portfolio in EUR is "+str("%.2f "%result)+"EUR")
+        result+=Decimal(curconvert(curkey,"EUR",Decimal(val)))
+    bot.reply("Current value of "+user+"'s whole portfolio in EUR is "+str("%.2f "%result)+"EUR")
+    print(str(wordhash))
 
 @commands('investstatus')
 def investstatus(bot,trigger):
@@ -44,13 +54,16 @@ def sell(bot,trigger):
     amount=Decimal(trigger.group(2))
     currency=trigger.group(3).upper()
     user=trigger.nick
+    if not user in wordhash:
+        bot.say("You need to create a new portfolio first. Use the .investstart command to get started!")
+        return
     btcineur=Decimal(curconvert(currency,"EUR",amount))
     if amount>Decimal(wordhash[user][currency]):
         bot.reply("You do not have enough "+currency+" to sell this amount. You only have "+str(wordhash[user][currency]))
     else:
         wordhash[user]["EUR"]=Decimal(wordhash[user]["EUR"])+btcineur
         wordhash[user][currency]=Decimal(wordhash[user][currency])-amount
-        bot.reply("You sold "+str(amount)+currency+" and got "+str("%.2f "%(amount*btcineur))+" EUR!")
+        bot.reply("You sold "+str(amount)+currency+" and got "+str("%.2f "%(btcineur))+" EUR!")
         bot.reply("Your EUR balance is now: "+str("%.2f "%wordhash[user]["EUR"])+"EUR")
     toxml()
 
@@ -59,6 +72,9 @@ def buy(bot,trigger):
     amount=Decimal(trigger.group(2))
     currency=trigger.group(3).upper()
     user=trigger.nick
+    if user not in wordhash:
+        bot.say("You need to create a new portfolio first. Use the .investstart command to get started!")
+        return
     euramount=Decimal(wordhash[user]["EUR"])
     btcineur=curconvert(currency,"EUR",amount)
     if btcineur>euramount:
@@ -67,7 +83,7 @@ def buy(bot,trigger):
         wordhash[user]["EUR"]=Decimal(wordhash[user]["EUR"])-btcineur
         if not currency in wordhash[user]:
             wordhash[user][currency]=Decimal(0)
-        wordhash[user][currency]=wordhash[user][currency]+amount
+        wordhash[user][currency]=Decimal(wordhash[user][currency])+Decimal(amount)
         bot.reply("You purchased "+str(amount)+currency+". Your "+currency+" balance is now "+str(wordhash[user][currency])+currency)
         bot.reply("Your EUR balance is now: "+str("%.2f "%wordhash[user]["EUR"])+"EUR")
     toxml();
