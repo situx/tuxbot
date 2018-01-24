@@ -8,12 +8,14 @@ wordhash={}
 credithash={}
 initialvalue=100000.00
 
+investfile = '/home/bananapi/.sopel/modules/invest.xml'
+
 def setup(bot):
-    e = ET.parse('/home/bananapi/.sopel/modules/invest.xml').getroot()
+    e = ET.parse(investfile).getroot()
     for atype in e.findall('user'):
         wordhash[atype.get('name')]={}
         for child in atype.iter('cur'):
-            wordhash[atype.get('name')][child    .get('currency')]=child.get('value')
+            wordhash[atype.get('name')][child.get('currency')]=child.get('value')
     print(str(wordhash))
 
 @commands('investstart')
@@ -100,4 +102,4 @@ def toxml():
             curtag.set('currency',curkey)
             curtag.set('value',str(val))
     tree=ET.ElementTree(root)
-    tree.write('invest.xml')    
+    tree.write(investfile)    
