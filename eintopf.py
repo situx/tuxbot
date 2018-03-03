@@ -28,27 +28,35 @@ def hi(bot, trigger):
         bot.say(trigger.group(1))
 
 @module.commands('github')
+@module.example('.github')
 def github(bot,trigger):
+    """Prints the bots current github page"""
     bot.say("https://github.com/situx/tuxbot")
 
 @module.commands('snack')
+@module.example('.snack')
 def snack(bot, trigger):
     bot.say('Nomnomnom')
 
 @module.commands('ping')
+@module.example('.ping')
 def helloworld(bot, trigger):
     bot.say('pong')
 
 @module.commands('pong')
+@module.example('.pong')
 def pong(bot,trigger):
     bot.say('ping')
 
 @module.commands('peng')
+@module.example('.peng')
 def peng(bot,trigger):
     bot.say('pong')
 
 @module.commands('schnickschnackschnuck\s(schere|stein|papier)','schnick\s(schere|stein|papier)')
+@module.example('.schnick stein','schnickschnackschnuck papier')
 def schnickschnackschnuck(bot,trigger):
+    """Plays the game rock, paper, scissors"""
     userinput=trigger.group(2).lower()
     switcher = {
                   0: "schere",
@@ -68,7 +76,9 @@ def schnickschnackschnuck(bot,trigger):
 
        
 @module.commands('schnickschnackschnuck2\s(schere|stein|papier|echse|spock)','schnick2\s(schere|stein|papier|echse|spock)')
+@module.example('.schnick2 spock','.schnickschnackschnuck2 echse')
 def schnickschnackschnuck(bot,trigger):
+    """Plays the game stone, paper, scissors, lizard spock known from the series The Big Bang Theory"""
     userinput=trigger.group(2).lower()
     switcher = {
                   0: "schere",

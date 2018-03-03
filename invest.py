@@ -19,7 +19,9 @@ def setup(bot):
     print(str(wordhash))
 
 @commands('investstart')
+@example('.investstart')
 def startinvest(bot,trigger):
+    """Starts and/or resets an initial investment portfolio"""
     user=trigger.nick
     wordhash[user]={}
     wordhash[user]["EUR"]=initialvalue
@@ -27,7 +29,9 @@ def startinvest(bot,trigger):
     toxml()
 
 @commands('curvalue(\s(.*))?')
+@example('.curvalue','.curvalue nick')
 def currentvalue(bot,trigger):
+    """Prints the current value of the portfolio of the given user in EUR"""
     user=trigger.nick
     if trigger.group(3):
         user=trigger.group(3)
@@ -54,7 +58,9 @@ def investstatus(bot,trigger):
             bot.say(str("%.8f "%float(val))+curkey)
 
 @commands('sell\s([0-9]+\.?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)\s([A-z]+)')
+@example('.sell 10.56 BTC')
 def sell(bot,trigger):
+    """Sells the specified amount in the specified currency from the virtual portfolio"""
     amount=Decimal(trigger.group(2))
     currency=trigger.group(3).upper()
     user=trigger.nick
@@ -72,7 +78,9 @@ def sell(bot,trigger):
     toxml()
 
 @commands('buy\s([0-9]+\.?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)\s([A-z]+)')
+@example('.buy 5 BTC')
 def buy(bot,trigger):
+    """Buys the specified amount of money in the specified currency given enough budget is available in the portfolio"""
     amount=Decimal(trigger.group(2))
     currency=trigger.group(3).upper()
     user=trigger.nick

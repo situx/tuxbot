@@ -12,7 +12,9 @@ def setup(bot):
 
 
 @sopel.module.commands('wortspielcredit')
+@sopel.module.example('.wortspielcredit')
 def wortspielcredit(bot,trigger):
+    """Prints the credit for the word game"""
     if trigger.nick=="situx":
         for key in credithash:
             credithash[key]=float(10)
@@ -22,7 +24,9 @@ def wortspielcredit(bot,trigger):
     toxml()
 
 @sopel.module.commands('wortspielreset')
+@sopel.module.example('.wortspielreset')
 def wortspielreset(bot,trigger):
+    """Resets the wordplay game for all players"""
     if trigger.nick=="situx":
         global wordhash
         global credithash
@@ -34,7 +38,9 @@ def wortspielreset(bot,trigger):
     toxml()
 
 @sopel.module.commands('wortspiel\s+([A-z]+)\s+([0-9]+[\.|,]?[0-9]*)')
+@sopel.module.example('.wortspiel nick 1.00')
 def helloworld(bot, trigger):
+    """Punishes the user with an amount of money to pay"""
     payment=round(float(trigger.group(3)),2)
     if not trigger.group(2) in credithash:
         credithash[trigger.group(2)]=float(10)
@@ -59,7 +65,9 @@ def helloworld(bot, trigger):
         toxml()
 
 @sopel.module.commands('wortspielstats')
+@sopel.module.example('.wortspielstats')
 def wordplaystat(bot,trigger):
+    """Prints the wordgame statistics"""
     bot.say("Wortspielstatistik: ")
     for key in wordhash:
         bot.say(key+": "+str(wordhash[key])+" Euro")

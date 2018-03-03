@@ -11,7 +11,9 @@ def setup(bot):
 
 
 @sopel.module.commands('kquote')
+@sopel.module.example('.kquote')
 def wortspielcredit(bot,trigger):
+    """Prints a random quote from the kquote repository"""
     choose=random.choice(list(quotehash.keys()))
     bot.say(quotehash[choose])
     bot.say(choose)

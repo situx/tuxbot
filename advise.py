@@ -10,11 +10,15 @@ def setup(bot):
 
 
 @sopel.module.commands('advicelist')
+@sopel.module.example('.advicelist')
 def advicelist(bot,trigger):
+    """Prints out the list of advices a user can give using the .advice command"""
     bot.say(str(advices))
 
 @sopel.module.commands('advice\s+([A-z]+)\s+([A-z]+)')
+@sopel.module.example('.advice nick topic')
 def advice(bot,trigger):
+    """Gives advice to a chat user among a predefined list of topics"""
     adKey = trigger.group(3)
     targetNick = trigger.group(2)
     if targetNick==bot.nick:

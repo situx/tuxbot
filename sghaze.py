@@ -14,6 +14,7 @@ cached_time=None
 chosen_area=None
 
 @commands('sghaze(\s+(north|south|east|west|central))?')
+@example('.sghaze north')
 def sghaze(bot,trigger):
 	global chosen_area
 	chosen_area=trigger.group(3)
@@ -31,6 +32,7 @@ def sghaze(bot,trigger):
 			bot.say(key+": "+rate_result(cached_psi[key]))
 
 @commands('sghazeinfo')
+@example('.sghazeinfo')
 def sghazelegend(bot,trigger):
 	bot.say('Air Quality Index Info:')
 	bot.say('0-50: None')
