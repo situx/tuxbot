@@ -9,12 +9,6 @@ def setup(bot):
         advices[atype.get('advicekey')]=str(atype.get('advicevalue'))
 
 
-@sopel.module.commands('advicelist')
-@sopel.module.example('.advicelist')
-def advicelist(bot,trigger):
-    """Prints out the list of advices a user can give using the .advice command"""
-    bot.say(str(advices))
-
 @sopel.module.commands('advice\s+([A-z]+)\s+([A-z]+)')
 @sopel.module.example('.advice nick topic')
 def advice(bot,trigger):
@@ -29,3 +23,8 @@ def advice(bot,trigger):
     else:
         bot.say("Ich habe keinen Rat mit dem Schluesselwort " + str(trigger.group(3)) + ". Momentan beherrsche ich " + str(len(advices)) + " Ratschlaege")
 
+@sopel.module.commands('advicelist')
+@sopel.module.example('.advicelist')
+def advicelist(bot,trigger):
+    """Prints out the list of advices a user can give using the .advice command"""
+    bot.say(str(advices))
