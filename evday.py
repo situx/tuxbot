@@ -55,7 +55,9 @@ def setbday(bot, trigger):
 
 
 @sopel.module.commands('evday','eventday')
+@sopel.module.example('.evday','.eventday')
 def nextbday(bot, trigger):
+    """Displays the event of the current day"""
     dict = readjson()
     res = datetonext(dict)
     if trigger.group(2):
@@ -101,7 +103,9 @@ def addbday(bot,trigger):
         bot.say("Event "+trigger.group(2)+"("+trigger.group(3)+"."+trigger.group(4)+".) "+("(One Time Event)"if dict[trigger.group(2)]["onetime"]=="true" else "")+" successfully registered!")
 
 @sopel.module.commands('remev\s([0-9A-z ,-]+)','removeevent\s([0-9A-z ,-]+)')
+@sopel.module.example('.remev eventname','.removeevent eventname')
 def removebday(bot,trigger):
+    """Removes an event which has previously been entered into the system"""
     dict=readjson()
     if trigger.group(2) in dict:
         del dict[trigger.group(2)]
@@ -111,7 +115,9 @@ def removebday(bot,trigger):
         bot.say("No such event "+trigger.group(1))
 
 @sopel.module.commands('evlist')
+@sopel.module.example('.evlist')
 def bdaylist(bot,trigger):
+    """Prints the list of events in a private messsage"""
     dictt=readjson()
     bot.reply("I am sending you the event list in a private message!")
     d = OrderedDict(sorted(dictt.items(), key=lambda x:x[1]["date"]))
