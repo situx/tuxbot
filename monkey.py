@@ -18,13 +18,17 @@ def setup(bot):
         insulthash[atype.get('lang')][atype.get('question')]=atype.get('answer')
 
 @sopel.module.commands('fighten\s+(.*)')
+@sopel.module.example('.fighten nick')
 def fighten(bot,trigger):
+    """Starts the insult sword fighting game in English for a given nick"""
     global lang
     lang='en'
     fightde(bot,trigger)
 
 @sopel.module.commands('fightde\s+(.*)')
+@sopel.module.commands('.fightde nick')
 def fightde(bot,trigger):
+    """Starts the insult sword fighting game in German for a given nick"""
     global lang
     if lang=='':
         lang='de'
