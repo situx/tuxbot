@@ -26,7 +26,7 @@ def fighten(bot,trigger):
     fightde(bot,trigger)
 
 @sopel.module.commands('fightde\s+(.*)')
-@sopel.module.commands('.fightde nick')
+@sopel.module.example('.fightde nick')
 def fightde(bot,trigger):
     """Starts the insult sword fighting game in German for a given nick"""
     global lang
