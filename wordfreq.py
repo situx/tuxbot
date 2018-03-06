@@ -17,7 +17,9 @@ def wordfreq(bot,trigger):
          user[trigger.nick][word]=user[trigger.nick][word]+1
 
 @sopel.module.commands('wordfreq\s([A-z`_]+)\s?([0-9]+)?')
+@sopel.module.example('.wordfreq nick')
 def wordfreqcom(bot,trigger):
+    """Shows the most frequently used words for the users in the chatroom"""
     maxval=0
     maxkey=""
     if trigger.group(2) in user and (len(user[trigger.group(2)].keys())>1 or len(user[trigger.group(2)])==1 and not 1 in user[trigger.group(2)].keys()):
