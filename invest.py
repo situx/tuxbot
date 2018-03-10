@@ -2,7 +2,6 @@ import xml.etree.ElementTree as ET
 from decimal import *
 import collections
 from sopel.module import commands, example, NOLIMIT
-from curr import *
 
 wordhash={}
 credithash={}
