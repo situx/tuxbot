@@ -46,7 +46,7 @@ def setup(bot):
             wordhash[atype.get('name')][child.get('currency')]=child.get('value')
     print(str(wordhash))
 
-@commands('investstart','.startinvest')
+@commands('investstart','startinvest')
 @example('.investstart','.startinvest')
 def startinvest(bot,trigger):
     """Starts and/or resets an initial investment portfolio"""
