@@ -11,11 +11,11 @@ def helloworld(bot, trigger):
     time.sleep(0.4)
     bot.say('(>^.^)>')
     time.sleep(0.4)
-    bot.say('(7^.^)7')
+    bot.say('(7^.^)7') 
     time.sleep(0.4)
     bot.say('(>^.^<)')
 
-@sopel.module.rule('^\s*[Mm]+[o]+in\s*$')
+@sopel.module.rule('^\s*[Mm]+[Oo]+[Ii]+[Nn]+\s*$')
 @sopel.module.example('Moin','moin')
 def moin(bot,trigger):
     """Lets the bot reply to a greeting"""
