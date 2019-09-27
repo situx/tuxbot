@@ -22,6 +22,7 @@ def moin(bot,trigger):
     bot.say('moin')
     
 @sopel.module.rule('^\s*[Dd]roggelbecher([?!]+)\s*$')
+@sopel.module.example('Droggelbecher')
 def droggelbecher(bot,trigger):
     """Replys Droggelbecher"""
     if "?" in trigger.group(2):
