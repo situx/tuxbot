@@ -20,3 +20,13 @@ def helloworld(bot, trigger):
 def moin(bot,trigger):
     """Lets the bot reply to a greeting"""
     bot.say('moin')
+    
+@sopel.module.rule('^\s*[Dd]roggelbecher([?!]+)\s*$')
+def droggelbecher(bot,trigger):
+    """Replys Droggelbecher"""
+    if "?" in trigger.group(2):
+        bot.say('Droggelbecher!')
+    elif "!" in trigger.group(2):
+        bot.say('Droggelbecher?')
+    else:
+        bot.say('Droggelbecher')
